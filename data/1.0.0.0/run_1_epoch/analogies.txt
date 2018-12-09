@@ -1,0 +1,3 @@
+positive ['overstock.com', 'wfcdn.com'], negative ['wayfair.com'], result "ostkcdn.com"
+positive ['delta.com', 'hilton.com'], negative [], result "orbitz.com"
+positive ['lyft.com', 'tripadvisor.com'], negative ['delta.com'], result "doordash.com"

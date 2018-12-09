@@ -1,0 +1,13 @@
+{
+  "run_name": "run_10_epochs",
+  "num_sentences": 9238066,
+  "embedding_size": 128,
+  "window_size": 3,
+  "min_count": 5,
+  "negative": 20,
+  "max_vocab_size": 40000,
+  "num_workers": 42,
+  "sg": 1,
+  "epochs": 10,
+  "seed": 1603
+}

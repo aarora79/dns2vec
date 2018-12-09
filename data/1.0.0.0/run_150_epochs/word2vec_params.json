@@ -1,0 +1,15 @@
+{
+  "run_name": "run_150_epochs",
+  "num_sentences": 9238066,
+  "embedding_size": 128,
+  "window_size": 7,
+  "min_count": 5,
+  "negative": 5,
+  "max_vocab_size": 40000,
+  "sample": 1e-05,
+  "ns_exponent": -1,
+  "num_workers": 42,
+  "sg": 1,
+  "epochs": 150,
+  "seed": 1603
+}

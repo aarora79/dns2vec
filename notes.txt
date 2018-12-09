@@ -1,0 +1,20 @@
+[1040374 rows x 2 columns] [1 million unique domains]
+all worker processes completed in 2579.964561 seconds ... [time for data cleanup and wrangling operations]
+2018-11-21 05:15:18,601,main,MainProcess,INFO,results..all done in 3405.979794 seconds ...
+another 5 minutes for Word2Vec to start
+MemTotal:       194430100 kB [total RAM]
+42 CPUs [total number of processors]
+[ec2-user@ip-172-30-1-56 dnswrangler]$ head /proc/cpuinfo
+processor       : 0
+vendor_id       : AuthenticAMD
+cpu family      : 23
+model           : 1
+model name      : AMD EPYC 7571
+stepping        : 2
+microcode       : 0x8001227
+cpu MHz         : 2200.112
+cache size      : 512 KB
+physical id     : 0
+
+1 epoch only training took 
+2018-11-21 05:24:23,145,base_any2vec,MainProcess,INFO,EPOCH - 1 : training on 55445086 raw words (53792519 effective words) took 75.8s, 709743 effective words/si
