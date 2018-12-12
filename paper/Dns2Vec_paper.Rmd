@@ -132,7 +132,7 @@ All 40,000 domain names in the vocabulary were grouped into categories such as s
 knitr::include_graphics("./figures/tsne_wo_legend.png")
 ```
 
-Finally, a network topology built using __wellsfargo.com__ as a starting domain is presented in Figure 6. The network topology discovered by recursively discovered three most similar domains reveals interesting patterns which not only include other similar websites (chase.com) but also domains in different categories such as website security (verisign.com) and hosting (godaddy.com). Refer to Figure 4, a better quality picture is available ([here](https://raw.githubusercontent.com/aarora79/dns2vec/master/paper/figures/network_topology.PNG "here").
+Finally, a network topology built using __wellsfargo.com__ as a starting domain is presented in Figure 6. The network topology discovered by recursively discovered three most similar domains reveals interesting patterns which not only include other similar websites (chase.com) but also domains in different categories such as website security (verisign.com) and hosting (godaddy.com). Refer to Figure 4, a better quality picture is available ([here](https://raw.githubusercontent.com/aarora79/dns2vec/master/paper/figures/network_topology.PNG "here")).
 
 ```{r echo=F, out.width="4in", fig.cap="Domain name relations via Dns2Vec"}
 knitr::include_graphics("./figures/analogies.png")
