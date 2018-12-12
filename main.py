@@ -145,7 +145,7 @@ def wrangle_file(f, ccTLD):
     hourly_per_single_token_query_timeseries = count_categories(dns_data[dns_data['domain_len_in_tokens'] == 1],
                                                                 ['ymd_h', 'query'])
 
-    # aggregate things on a per day basis
+    # aggregate things on a per 20 minute basis
     dns_data['ts_aggr'] = dns_data['ts'].map(lambda x: "%04d%02d%02d%02d%02d" %(x.year, x.month, x.day, x.hour, x.minute/20))
 
     # handle IP address, we assume /29 for IPv4 and /64 for IPv6
