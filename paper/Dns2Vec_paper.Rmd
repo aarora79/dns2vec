@@ -25,7 +25,7 @@ To remove the heterogeneity from domain names belonging to the same entity  the 
 
 The file was parsed, each line tokenized and  a new timestamp aggregation field was created to group timestamps into 20 minute intervals. The IP address assigned to a user is generally dynamic and could change with the course of time (for example after an extended inactivity period). Therefore a time interval had to be choosen which was short enough to ensure that the IP address assigned to a user did not change during that period and at the same time long enough to accumulate a critical mass of domain name queries. 20 minutes offered a good middle ground, other values that were experimented with were 1 hour and 1 day. The _$T_{interval}$,Source IP address_ tuple was used as a grouping key to create a Documents of DNS queries. The structure of a single document that corresponded to 20 minutes worth of DNS lookups from a single IP address was of the form _$T_{interval}$, Source IP address, [dn1, dn2, ..,dnN]_.  The entire dataset was converted into a corpus of DNS documents in this way.
 
-Before this corpus of DNS documents could be fed to a Word2Vec implementation, there is another data cleaning step that needed to be done and that was the removal of "stop-domains". Stop-domains akin to stop-words are domain names such as google.com, facebook.com etc. that occur frequently in every document and thus make it difficult to get good quality embeddings since they would appear to be similar to a lot of domain names. To identify stop-domains a TF-IDF[8] score was determined for each domain name and the 100 domain names with the lowest TF-IDF scores were treated as stop-domains, these included google.com, apple.com etc. This method, although similar to, but is better than a pure frequency based approach since it takes into account occurrence of these domain names across documents. See Figure 1 for a pure frequency based approach which provides similar results and Table 1 (full listing [here](https://raw.githubusercontent.com/aarora79/dns2vec/master/data/1.0.0.0/run_150_epochs/fqdn_tfidf_subset.csv "here")) for domain names with the 100 smallest TF-IDF values.
+Before this corpus of DNS documents could be fed to a Word2Vec implementation, there is another data cleaning step that needed to be done and that was the removal of "stop-domains". Stop-domains akin to stop-words are domain names such as google.com, facebook.com etc. that occur frequently in every document and thus make it difficult to get good quality embeddings since they would appear to be similar to a lot of domain names. To identify stop-domains a TF-IDF[8] score was determined for each domain name and the 100 domain names with the lowest TF-IDF scores were treated as stop-domains, these included google.com, apple.com etc. This method, although similar to, but is better than a pure frequency based approach since it takes into account occurrence of these domain names across documents. See Figure 1 for a pure frequency based approach which provides similar results and Table 1 (full listing [here](https://raw.githubusercontent.com/aarora79/dns2vec/master/paper/results/fqdn_tfidf_subset.csv "here")) for domain names with the 100 smallest TF-IDF values.
 
 ```{r echo=F, out.width="4in", fig.cap="Query count by top level entity"}
 knitr::include_graphics("./figures/dns_query_by_top_level_entity.png")
@@ -35,7 +35,7 @@ knitr::include_graphics("./figures/dns_query_by_top_level_entity.png")
 suppressMessages(library(kableExtra))
 suppressMessages(suppressWarnings(library(dplyr)))
 suppressMessages(suppressWarnings(library(tidyverse)))
-df <- suppressMessages(read_csv("https://raw.githubusercontent.com/aarora79/dns2vec/master/data/1.0.0.0/run_150_epochs/fqdn_tfidf_subset.csv"))
+df <- suppressMessages(read_csv("https://raw.githubusercontent.com/aarora79/dns2vec/master/paper/results/fqdn_tfidf_subset.csv"))
 kable(df %>% tail (10),
       col.names = c("Domain name", "TF-IDF"), caption = "Domain names with lowest TF-IDF values")
 ```
@@ -68,7 +68,7 @@ Another aspect that was explored was to build a network topology by taking a dom
 
 # Results
 
-Table 2 shows similar domains determined using Dns2Vec for a sample of input domains, a complete listing is available ([here](https://raw.githubusercontent.com/aarora79/dns2vec/master/data/1.0.0.0/run_150_epochs/similiar_domains_from_nb.csv "here")):
+Table 2 shows similar domains determined using Dns2Vec for a sample of input domains, a complete listing is available ([here](https://raw.githubusercontent.com/aarora79/dns2vec/master/paper/results/similiar_domains_from_nb.csv "here")):
 
 ```{r echo=F}
 suppressMessages(library(kableExtra))
@@ -120,24 +120,23 @@ kable(data.frame(a=c("wfcdn.com - wayfair.com + overstock.com = ovstkcdn.com\\\\
       col.names = c("Analogy discovered by Dns2Vec"), caption ="DNS Analogies", escape = F)
 ```
 
-We also experimented with building Word2Vec style DNS analogies, see Table 3 and Figure 4. 
-
-```{r echo=F, out.width="4in", fig.cap="Dns2Vec analogies"}
-knitr::include_graphics("./figures/analogies.png")
-```
-
-All 40,000 domain names in the vocabulary were grouped into categories such as shopping, news/media, sports, adult etc. using Symantec K9 website categorization service. After finding top 3 most similar domains corresponding to a given name and then considering the result to be valid if at least one of the top 3 domains is in the same category as the input domain a success metric was calculated. The success metric evaluated over the entire Dns2Vec vocabulary was found to be 55.4%. The vectors corresponding to the domain name were plotted in 2-dimensional space using t-SNE and were color coded by category. Domains belonging to the same category tend to cluster together, this is especially true for search engines, uncategorized/suspicious, adult content and news/media. Refer to Figure 5, a better quality picture is available ([here](https://raw.githubusercontent.com/aarora79/dns2vec/master/data/1.0.0.0/run_150_epochs/tsne.png "here")).
-
-```{r echo=F, out.width="4in", fig.cap="t-SNE for DNS vectors"}
-knitr::include_graphics("./figures/tsne.png")
-```
-
-Finally, a network topology built using __wellsfargo.com__ as a starting domain is presented in Figure 6. The network topology discovered by recursively discovered three most similar domains reveals interesting patterns which not only include other similar websites (chase.com) but also domains in different categories such as website security (verisign.com) and hosting (godaddy.com). Refer to Figure TBD, a better quality picture is available ([here](https://raw.githubusercontent.com/aarora79/dns2vec/master/data/1.0.0.0/run_150_epochs/network_topology.PNG "here").
+We also experimented with building Word2Vec style DNS analogies, see Table 3 and Figure 6. 
 
 ```{r echo=F, out.width="4in", fig.cap="Network Topology with wellsfargo.com as seed"}
 knitr::include_graphics("./figures/network_topology.png")
 ```
 
+All 40,000 domain names in the vocabulary were grouped into categories such as shopping, news/media, sports, adult etc. using Symantec K9 website categorization service. After finding top 3 most similar domains corresponding to a given name and then considering the result to be valid if at least one of the top 3 domains is in the same category as the input domain a success metric was calculated. The success metric evaluated over the entire Dns2Vec vocabulary was found to be 55.4%. The vectors corresponding to the domain name were plotted in 2-dimensional space using t-SNE and were color coded by category. Domains belonging to the same category tend to cluster together, this is especially true for search engines, uncategorized/suspicious, adult content and news/media. Refer to Figure 5, a better quality picture is available ([here](https://raw.githubusercontent.com/aarora79/dns2vec/master/paper/figures/tsne.png "here")).
+
+```{r echo=F, out.width="4in", fig.cap="t-SNE for DNS vectors"}
+knitr::include_graphics("./figures/tsne_wo_legend.png")
+```
+
+Finally, a network topology built using __wellsfargo.com__ as a starting domain is presented in Figure 6. The network topology discovered by recursively discovered three most similar domains reveals interesting patterns which not only include other similar websites (chase.com) but also domains in different categories such as website security (verisign.com) and hosting (godaddy.com). Refer to Figure 4, a better quality picture is available ([here](https://raw.githubusercontent.com/aarora79/dns2vec/master/paper/figures/network_topology.PNG "here").
+
+```{r echo=F, out.width="4in", fig.cap="Domain name relations via Dns2Vec"}
+knitr::include_graphics("./figures/analogies.png")
+```
 
 # Discussion of Results
 
@@ -165,8 +164,8 @@ Future work in this area would be to explore further hyperparameter optimization
 # Links to this paper's material
 
 1. Github repo: https://github.com/aarora79/dns2vec
-2. tf-idf table: https://raw.githubusercontent.com/aarora79/dns2vec/master/data/1.0.0.0/run_150_epochs/fqdn_tfidf_subset.csv
-3. Similar domains: https://raw.githubusercontent.com/aarora79/dns2vec/master/data/1.0.0.0/run_150_epochs/similiar_domains_from_nb.csv
-4. t-SNE: https://raw.githubusercontent.com/aarora79/dns2vec/master/data/1.0.0.0/run_150_epochs/tsne.png
-5. Network topology: https://raw.githubusercontent.com/aarora79/dns2vec/master/data/1.0.0.0/run_150_epochs/network_topology.png
+2. tf-idf table: https://raw.githubusercontent.com/aarora79/dns2vec/master/paper/results/fqdn_tfidf_subset.csv
+3. Similar domains: https://raw.githubusercontent.com/aarora79/dns2vec/master/paper/results/similiar_domains_from_nb.csv
+4. t-SNE:https://raw.githubusercontent.com/aarora79/dns2vec/master/paper/figures/tsne.png
+5. Network topology: https://raw.githubusercontent.com/aarora79/dns2vec/master/paper/figures/network_topology.png
 
