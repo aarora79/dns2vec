@@ -115,7 +115,7 @@ kable(data.frame(d=c("elle.com", "", "", "", "webmd.com", "", "", "", "", "", ""
 ```{r echo=F}
 suppressMessages(library(kableExtra))
 kable(data.frame(a=c("wfcdn.com - wayfair.com + overstock.com = ovstkcdn.com\\\\(find CDN for a website)",
-                     "delta.com + hilton.com = tripadvisor.com\\\\(hotel and taxi combine to form a trip)")),
+                     "delta.com + hilton.com = tripadvisor.com\\\\(airline and hotel combine to form a trip)")),
                  format = "latex", 
       col.names = c("Analogy discovered by Dns2Vec"), caption ="DNS Analogies", escape = F)
 ```
@@ -140,14 +140,14 @@ knitr::include_graphics("./figures/analogies.png")
 
 # Discussion of Results
 
-We show that vector embeddings can be used for representing domain names and the DNS vectors do encode similarity between domains (Table 1, Figure 4). We also show that vector arithmetic is able to find complex relations between domains that corresponds to real world linkages (Table 2, Figure 5). Furthermore, the domain name vector space can be traversed to build network topologies (Figure 6). All this has tremendous value to various traffic engineering functions because now just using the vector representation of a domain name the traffic corresponding to it can be categorized (news/media, shopping or any other custom defined category) and once categorized this traffic can be easily prioritized, shaped, filtered or even be used to determine an average vector for a browsing session.
+We show that vector embeddings can be used for representing domain names and the DNS vectors do encode similarity between domains (Table 1, Figure 4). We also show that vector arithmetic is able to find complex relations between domains that corresponds to real world linkages (Table 2, Figure 5). The accuracy metric and separation between t-SNE clusters is expected to improve as more data is used for creating the embeddings. Furthermore, the domain name vector space can be traversed to build network topologies (Figure 6). All this has tremendous value to various traffic engineering functions because now just using the vector representation of a domain name the traffic corresponding to it can be categorized and once categorized, this traffic can be easily prioritized, shaped, filtered or even be used to determine an average vector for a browsing session.
 
 
 #  Conclusions
 
 We have shown that good vector representation of domain names can be derived by doing Word2Vec on sequence of domain names grouped by time interval and source IP address. The domain name vectors can be used for finding other similar domains and building complex analogies without having any other information such as the content of the web page hosted by these domains. 
 
-Future work in this area would be to explore further hyperparameter optimization to get better embedding efficiency and separation in t-SNE representation. Also, collecting more data would certainly produce even better quality vectors.  An alternative to using DNS logs could be to use IP flow logs corresponding to actual traffic flows, this would present yelp.com and yelp.de from appearing as similar domains which would help with traffic prediction applications. Another potential area is use of DNS vectors in a sequence-to-sequence model which consumes a sequence of domain name vectors to predict a sequence of domain names that would be accessed next which can then be prefetched before actually being requested thus improving web page loading times.
+Ideas for future work include hyperparameter optimization to get better embedding efficiency with even more data. A different approach to data wrangling would be tokenize the domain name on a "." and then explore the relationship between the tokens. This might yield a more nuanced understanding of the domain name space. An alternative to using DNS logs could be to use IP flow logs corresponding to actual traffic flows, this would present yelp.com and yelp.de from appearing as similar domains which would help with traffic prediction applications. Another potential area is use of DNS vectors in a sequence-to-sequence model which consumes a sequence of domain name vectors to predict a sequence of domain names that would be accessed next.
 
 \pagebreak
 
